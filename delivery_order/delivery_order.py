@@ -18,6 +18,17 @@ def add_shipped(message):
     delivery['orders'].append({'order_id': load['order_id'], 'customer_id': load['customer_id'], 'restaurant_id': load['restaurant_id'], 'taken': 0})
     deliveriesdb.delivery_orders.deliveries.replace_one({'_id': delivery['_id']}, delivery)
 
+def set_taken(message):
+    load = json.loads(message['data'])
+    order_id = load['order_id']
+    taken = load['taken']
+    orders = deliveriesdb.delivery_orders.deliveries.find_one({'orders.order_id': order_id})
+    for order in orders["orders"]:
+        if order['order_id'] == order_id:
+            order["taken"] = taken
+            break
+    deliveriesdb.delivery_orders.deliveries.replace_one({'_id': orders['_id']}, orders)
+
 ###################
 # Flask endpoints
 ###################
