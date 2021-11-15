@@ -1,5 +1,10 @@
 version: "3.3"
 services:
+  message_queue:
+     container_name: message_queue
+     image: redis
+     expose: 
+       - 6379
   delivery_order:
       container_name: delivery_order
       build: .
