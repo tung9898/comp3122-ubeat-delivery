@@ -28,6 +28,15 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - delivery_order_db:/data/db
 
+  delivery_order_test:
+    container_name: delivery_order_test
+    build: ./test
+    depends_on:
+      - delivery_order
+      - delivery_order_db
+    volumes:
+      - ./test:/app
+
 volumes:
   delivery_order_db:
     name: delivery_order_db
